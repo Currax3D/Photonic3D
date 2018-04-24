@@ -59,7 +59,7 @@ if [ ! -f "/usr/lib/jni/librxtxSerial.so" ]; then
 fi
 
 #This application will always need to have the display set to the following
-export DISPLAY=:0.0
+export DISPLAY=:1.0
 xinitProcess=`ps -ef | grep grep -v | grep xinit`
 if [ -z "${xinitProcess}" ]; then
     echo No X server running, starting and configuring one
@@ -164,6 +164,11 @@ echo Turning off screen saver and power saving
 xset s off         # don't activate screensaver
 xset -dpms         # disable DPMS (Energy Star) features
 xset s noblank     # don't blank the video device
+
+#tinkerboard stuff
+xrandr --output HDMI-1 --mode 2560x1600 --pos 800x0 --rotate normal --output DSI-1 --primary --mode 800x480 --pos 0x0 --rotate normal
+xinput --map-to-output 6 DSI-1
+export DISPLAY=:1.0
 
 if [ ! -f "/etc/init.d/cwhservice" ]; then
 	echo Installing CWH as a service
